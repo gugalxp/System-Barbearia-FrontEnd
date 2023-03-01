@@ -4,28 +4,30 @@ import Image from 'next/image';
 import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
 import logoImg from '../../../public/images/logo.svg'
 import Link from 'next/link';
-import { AuthContext } from '../../context/AuthContext'
 import { canSSRGuest } from "../../utils/canSSRGuest"
 
+import { AuthContext } from '../../context/AuthContext'
 
-export default function Login() {
+export default function Register() {
 
-  const { signIn } = useContext(AuthContext)
+  const { signUp } = useContext(AuthContext);
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  async function handleLogin () {
-    if (!email || !password) {
+  async function handleRegister () {
+    if (!name && !email && password) {
       return;
     }
-    
-    await signIn({email, password})
+
+    await signUp({ name, email, password });
   }
 
   return (
     <>
     <Head>
-      <title>BarberPRO - Faça login para acessar</title>
+      <title>Crie sua conta no BarberPRO</title>
     </Head>
     <Flex color="barber.100" background="barber.900" height="100vh" alignItems="center" justifyContent="center">
       
@@ -45,12 +47,24 @@ export default function Login() {
           background="barber.400"
           variant="filled"
           size="lg"
+          placeholder="Nome da barbearia"
+          type="text"
+          mb={3}
+          _hover={{ bg: "barber.400"}}
+          value={name}
+          onChange={ (e) => setName(e.target.value)}
+        />
+
+        <Input 
+          background="barber.400"
+          variant="filled"
+          size="lg"
           placeholder="email@email.com"
           type="email"
-          _hover={{ bg: "barber.400"}}
           mb={3}
+          _hover={{ bg: "barber.400"}}
           value={email}
-          onChange={ (e) => setEmail(e.target.value) }
+          onChange={ (e) => setEmail(e.target.value)}
         />
 
         <Input 
@@ -62,7 +76,7 @@ export default function Login() {
           mb={6}
           _hover={{ bg: "barber.400"}}
           value={password}
-          onChange={ (e) => setPassword(e.target.value) }
+          onChange={ (e) => setPassword(e.target.value)}
         />
 
         <Button
@@ -71,14 +85,14 @@ export default function Login() {
           color="gray.900"
           size="lg"
           _hover={{ bg: "#ffb13e"}}
-          onClick={ handleLogin }
+          onClick={ handleRegister }
         >
-          Acessar
+          Cadastrar
         </Button>
 
         <Center mt={2}>
-          <Link href="/register">
-            <Text cursor="pointer">Ainda não possui conta? <strong>Cadastre-se</strong></Text>
+          <Link href="/login">
+            <Text cursor="pointer">Já possui conta? <strong>Faça login</strong></Text>
           </Link>
         </Center>
 
