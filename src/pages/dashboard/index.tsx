@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Flex, Text, Center, Input, Button } from '@chakra-ui/react'
 import { canSSRAuth } from "../../utils/canSSRAuth"
+import { Sidebar } from "../../components/sidebar";
 
 export default function Dashboard() {
   return (
@@ -8,10 +9,11 @@ export default function Dashboard() {
       <Head>
         <title>BarberPRO - Minha barbearia</title>
       </Head>
-
-      <Flex>
-        <Text>BEM VINDO AO DASHBOARD</Text>
-      </Flex>
+      <Sidebar>
+        <Flex>
+          <Text>BEM VINDO AO DASHBOARD</Text>
+        </Flex>
+      </Sidebar>
     </>
   )
 }
