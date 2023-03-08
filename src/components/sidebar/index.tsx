@@ -35,16 +35,32 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Cortes', icon: FiClipboard, route: '/haircuts' },
   { name: 'Minha Conta', icon: FiSettings, route: '/profile' }
 ]
- 
-export function Sidebar({ children } : { children : ReactNode }) {
 
-  const {isOpen, onOpen, onClose} = useDisclosure()
+export function Sidebar({ children }: { children: ReactNode }) {
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <Box minH="100vh" bg="barber.900">
-      <SidebarContent 
-      onClose={onClose}
-      display={{ base: 'none', md: 'block'}}
+      <SidebarContent
+        onClose={onClose}
+        display={{ base: 'none', md: 'block' }}
       />
+      <Drawer
+        autoFocus={false}
+        isOpen={isOpen}
+        placement="left"
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
+        onClose={onClose}
+      >
+        <DrawerContent>
+          <SidebarContent onClose={onClose} color="button.cta" />
+        </DrawerContent>
+      </Drawer>
+
+      <MobileNav display={{ base: 'flex', md: 'none'}} onOpen={onOpen}/>
 
       <Box>
         {children}
@@ -77,7 +93,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map(link => (
-        <NavItem icon={link.icon} route={link.route}  key={link.name}>
+        <NavItem icon={link.icon} route={link.route} key={link.name}>
           {link.name}
         </NavItem>
       ))}
@@ -122,5 +138,41 @@ const NavItem = ({ icon, children, route, ...rest }: NavItemProps) => {
         {children}
       </Flex>
     </Link>
+  )
+}
+
+interface MobileProps extends FlexProps {
+  onOpen: () => void;
+}
+
+const MobileNav = ({ onOpen, ...rest } : MobileProps) => {
+
+  return (
+    <>
+      <Flex
+        ml={{ base: 0, md: 60}}
+        px={{ base: 4, md: 24}}
+        height={24}
+        alignItems="center"
+        bg={useColorModeValue('gray.900', 'gray.900')}
+        borderBottomWidth="1px"
+        justifyContent="flex-start"
+        {...rest}
+      >
+        <IconButton 
+          bg="transparent"
+          color="white"
+          variant="outline"
+          onClick={onOpen}
+          aria-label="open menu"
+          icon={ <FiMenu/> }
+        />
+
+        <Flex flexDirection="row">
+            <Text ml={8} fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="white">Barber</Text>
+            <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="button.cta">PRO</Text> 
+        </Flex>
+      </Flex>
+    </>
   )
 }
