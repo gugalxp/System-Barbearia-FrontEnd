@@ -60,9 +60,9 @@ export function Sidebar({ children }: { children: ReactNode }) {
         </DrawerContent>
       </Drawer>
 
-      <MobileNav display={{ base: 'flex', md: 'none'}} onOpen={onOpen}/>
+      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
 
-      <Box>
+      <Box ml={{ base: 0, md: 60}} p={4}>
         {children}
       </Box>
     </Box>
@@ -145,13 +145,13 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 
-const MobileNav = ({ onOpen, ...rest } : MobileProps) => {
+const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 
   return (
     <>
       <Flex
-        ml={{ base: 0, md: 60}}
-        px={{ base: 4, md: 24}}
+        ml={{ base: 0, md: 60 }}
+        px={{ base: 4, md: 24 }}
         height={24}
         alignItems="center"
         bg={useColorModeValue('gray.900', 'gray.900')}
@@ -159,18 +159,18 @@ const MobileNav = ({ onOpen, ...rest } : MobileProps) => {
         justifyContent="flex-start"
         {...rest}
       >
-        <IconButton 
+        <IconButton
           bg="transparent"
           color="white"
           variant="outline"
           onClick={onOpen}
           aria-label="open menu"
-          icon={ <FiMenu/> }
+          icon={<FiMenu />}
         />
 
         <Flex flexDirection="row">
-            <Text ml={8} fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="white">Barber</Text>
-            <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="button.cta">PRO</Text> 
+          <Text ml={8} fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="white">Barber</Text>
+          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" color="button.cta">PRO</Text>
         </Flex>
       </Flex>
     </>
