@@ -1,11 +1,20 @@
+import { useContext } from 'react'
 import Head from 'next/head';
 import { Flex, Text, Heading, Box, Input, Button } from '@chakra-ui/react'
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import { Sidebar } from "../../components/sidebar";
+import { AuthContext } from "../../context/AuthContext"
+import { setupAPIClient } from '../../services/api';
 
 import Link from "next/link"
 
 export default function Profile() {
+const { logoutUser } = useContext(AuthContext);
+
+  async function handleLogout() {
+   await logoutUser();
+  }
+
   return (
     <>
       <Head>
@@ -49,8 +58,8 @@ export default function Profile() {
                 </Link>
               </Flex>
 
-          <Button w="100%" mt={3} mb={4} bg="button.cta" size="lg" color="#fff" _hover={{ bg: '#ffb13e' }}>Salvar</Button>
-          <Button w="100%" mb={6} bg="transparent" borderColor="red.500" borderWidth={2} size="lg" color="red.500" _hover={{ bg: 'transparent' }}>Sair da conta</Button>
+              <Button w="100%" mt={3} mb={4} bg="button.cta" size="lg" color="#fff" _hover={{ bg: '#ffb13e' }}>Salvar</Button>
+              <Button onClick={handleLogout} w="100%" mb={6} bg="transparent" borderColor="red.500" borderWidth={2} size="lg" color="red.500" _hover={{ bg: 'transparent' }}>Sair da conta</Button>
 
             </Flex>
           </Flex>
@@ -61,9 +70,38 @@ export default function Profile() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-  return {
-    props: {
 
+  try {
+    
+    const apiClient = setupAPIClient(ctx)
+    const response = await apiClient.get('/detalhesUserLogado')
+  
+    setInterval(() => {
+      console.log("Tentativa: ", response)
+
+      if (typeof response !== 'undefined') {
+        console.log("Conteúdo: ", response)
+      }
+    })
+    // const user = {
+    //   id: response.data.id,
+    //   name: response.data.name,
+    //   email: response.data.email,
+    //   endereco: response.data?.endereco
+    // }
+  
+    return {
+      props: {
+      }
+    }
+  } catch (error) {
+    console.log("ERROR NO SERVIDOR: ", error)
+
+    return {
+      redirect:{
+        destination: '/dashboard',
+        permanent: false
+      }
     }
   }
 })
