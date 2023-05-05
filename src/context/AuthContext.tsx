@@ -44,7 +44,7 @@ export const AuthContext = createContext({} as AuthContextData)
 
 
 export function signOut(){
-  console.log("ERORR LOGOUT");
+  console.log("chegou no LOGOUT");
   try{
     destroyCookie(null, '@barber.token', { path: '/' })
     Router.push('/login');

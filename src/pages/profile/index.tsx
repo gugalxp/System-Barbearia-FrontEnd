@@ -44,6 +44,23 @@ export default function Profile() {
     await logoutUser();
   }
 
+  async function handleUpdateUser() {
+    if (!name || !endereco) {
+      return;
+    }
+
+    try {
+      api.put('/updateInformacoesUsuario', {
+        name: name,
+        endereco: endereco
+      }).then(response => {
+        alert("Dados atualizados com sucesso!")
+      })
+    } catch (error) {
+      console.log(error);      
+    }
+  }
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -157,6 +174,7 @@ export default function Profile() {
                 bg="button.cta"
                 size="lg"
                 _hover={{ bg: '#ffb13e' }}
+                onClick={handleUpdateUser}
               >
                 Salvar
               </Button>
