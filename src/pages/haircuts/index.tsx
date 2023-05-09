@@ -18,7 +18,7 @@ import { api } from '../../services/apiClient'
 import { IoMdPricetag } from 'react-icons/io'
 
 export default function Haircuts() {
-  const { logoutUser } = useContext(AuthContext);
+  const {  } = useContext(AuthContext);
 
   const [isMobile] = useMediaQuery("(max-width: 500px)")
 
@@ -35,7 +35,7 @@ export default function Haircuts() {
             width="100%"
             alignItems={isMobile ? "column" : "center"}
             justifyContent="flex-start"
-            mb={0}
+            mb={isMobile ? 5 : 0}
           >
             <Heading
               fontSize={isMobile ? "28px" : "3xl"}
@@ -48,7 +48,7 @@ export default function Haircuts() {
             </Heading>
 
             <Link href="/haircuts/new">
-              <Button>
+              <Button bg="barber.400" _hover={{ opacity: ".2", borderWidth: '2px'}} color="#fff">
                 Cadastrar novo
               </Button>
             </Link>
