@@ -18,14 +18,15 @@ export function setupAPIClient(ctx = undefined){
   api.interceptors.response.use(response => {
     return response;
   }, (error: AxiosError) => {
-    if(error.response.status === 401){
-      if(typeof window !== undefined){
-        signOut();
+    console.log("ERROR NO CONSOLE: ", error)
+    // if(error.response.status === 401){
+    //   if(typeof window !== undefined){
+    //     signOut();
     
-      }else{
-        return Promise.reject(new AuthTokenError())
-      }
-    }
+    //   }else{
+    //     return Promise.reject(new AuthTokenError())
+    //   }
+    // }
 
     return Promise.reject(error);
 

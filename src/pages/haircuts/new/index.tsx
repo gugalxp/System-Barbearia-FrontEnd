@@ -24,7 +24,7 @@ interface NewHairtcutProps {
   count: number;
 }
 
-export default function NewHaircut({ subscription, count } : NewHairtcutProps) {
+export default function NewHaircut({ subscription, count }: NewHairtcutProps) {
 
   const [isMobile] = useMediaQuery("(max-width: 500px)")
 
@@ -142,14 +142,14 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     const apiClient = setupAPIClient(ctx);
     const response = await apiClient.get('/check')
     const count = await apiClient.get('/countHaircut')
-
+    response
     console.log("RESPONSE", response)
     console.log("COUNT: ", count)
 
     return {
       props: {
-        subscription: response.data?.subscription?.status === 'active' ? true : false,
-        count: count.data
+        subscription: response.data.user?.subscription?.status === 'active' ? true : false,
+        count: count.data.user
       }
     }
 

@@ -15,6 +15,7 @@ import { Sidebar } from '../../components/sidebar'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { AuthContext } from '../../context/AuthContext'
 import { api } from '../../services/apiClient'
+import { setupAPIClient } from '../../services/api'
 import { IoMdPricetag } from 'react-icons/io'
 
 export default function Haircuts() {
@@ -96,16 +97,18 @@ export default function Haircuts() {
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
 
-  // try{
-  // const apiClient = setupAPIClient(ctx)
-  // const response = await apiClient.get('/detalhesUserLogado')
+  try{
+  const apiClient = setupAPIClient(ctx)
+  const response = await apiClient.get('/detalhesUserLogado')
+  let a = 0;
+  console.log(a)
 
-  // const user = {
-  //   id: response.data.id,
-  //   name: response.data.name,
-  //   email: response.data.email,
-  //   endereco: response.data?.endereco
-  // }
+  const user = {
+    id: response.data.id,
+    name: response.data.name,
+    email: response.data.email,
+    endereco: response.data?.endereco
+  }
 
   return {
     props: {
@@ -113,15 +116,15 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
   }
 
 
-  // }catch(err){
-  // console.log(err);
+  }catch(err){
+  console.log("ERRO DENTRO DO COMPONENTE: ", err);
 
-  //   return{
-  //     redirect:{
-  //       destination: '/dashboard',
-  //       permanent: false,
-  //     }
-  //   }
-  // }
+    return{
+      redirect:{
+        destination: '/dashboard',
+        permanent: false,
+      }
+    }
+  }
 
 })
